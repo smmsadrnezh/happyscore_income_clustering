@@ -2,6 +2,7 @@ from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 import csv
 import numpy as np
+from tkinter import *
 
 
 def plot_clusters(income, happiness):
@@ -35,6 +36,24 @@ def plot_data(income, happiness):
     plt.show()
 
 
+def gui(income, happiness):
+    window = Tk()
+    window.title("Happiness/Income Clustering")
+    window.geometry('110x60')
+
+    lbl_plot_data = Label(window, text="Data: ")
+    lbl_plot_cluster = Label(window, text="Clusters: ")
+    btn_plot_data = Button(window, text="Plot", command=lambda: plot_data(income, happiness))
+    btn_plot_cluster = Button(window, text="Plot", command=lambda: plot_clusters(income, happiness))
+
+    lbl_plot_data.grid(column=0, row=0)
+    lbl_plot_cluster.grid(column=0, row=1)
+    btn_plot_data.grid(column=1, row=0)
+    btn_plot_cluster.grid(column=1, row=1)
+
+    window.mainloop()
+
+
 def export_data(file_name):
     with open(file_name) as csv_file:
         countries = list(csv.DictReader(csv_file))
@@ -45,8 +64,7 @@ def export_data(file_name):
 
 def main():
     income, happiness = export_data('happyscore_income.csv')
-    plot_data(income, happiness)
-    plot_clusters(income, happiness)
+    gui(income, happiness)
 
 
 if __name__ == '__main__':
